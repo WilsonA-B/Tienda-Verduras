@@ -1,6 +1,17 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
+import sqlite3
+
+conn = sqlite3.connect("Tienda.db")
+cursor = conn.cursor()
+
+with open ("Estructura.sql", "r") as archivo_sql:
+    cursor.executescript(archivo_sql.read())
+
+conn.commit()
+conn.close()
+
 # -----------------------------------------------
 # Precios fijos por producto
 precios_productos = {
@@ -10,6 +21,7 @@ precios_productos = {
     "Apio": 700, "Remolacha": 1000, "Rábano": 600, "Perejil": 500, "Chayote": 900,
     "Maíz": 750, "Yuca": 850, "Aguacate": 2000
 }
+
 productos = list(precios_productos.keys())
 
 # -----------------------------------------------
