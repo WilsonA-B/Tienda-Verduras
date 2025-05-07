@@ -1,4 +1,5 @@
 import tkinter as tk
+from Helpers import *
 from tkinter import ttk, messagebox
 
 import sqlite3
@@ -11,6 +12,43 @@ with open ("Estructura.sql", "r") as archivo_sql:
 
 conn.commit()
 conn.close()
+
+# -----------------------------------------------
+# Crear ventana principal
+ventana = tk.Tk()
+ventana.title("Tienda de Verduras")
+ventana.configure(bg="#e8f5e9")
+ventana.overrideredirect(True)
+ventana.resizable(True, True)
+centrar_ventana(ventana, 1100, 450)
+
+# -----------------------------------------------
+# Cuerpo principal
+cuerpo = tk.Frame(ventana, bg="#e8f5e9")
+cuerpo.pack(fill="both", expand=True, padx=10, pady=10)
+cuerpo.columnconfigure(1, weight=1)
+
+# -----------------------------------------------
+# Tabla productos
+tabla_frame = tk.Frame(cuerpo, bg="#e8f5e9")
+tabla_frame.grid(row=0, column=1, sticky="nsew")
+cuerpo.grid_columnconfigure(1, weight=1)
+
+label_tabla = tk.Label(tabla_frame, text="Canasta", bg="#e8f5e9", fg="#1b5e20", font=("Arial", 12, "bold"))
+label_tabla.pack()
+
+tabla = ttk.Treeview(tabla_frame, columns=("Producto", "Cantidad", "Precio", "Total"), show="headings", height=10)
+for col in ("Producto", "Cantidad", "Precio", "Total"):
+    tabla.heading(col, text=col)
+    tabla.column(col, width=100,)
+tabla.pack(fill="both", expand=True)
+
+
+# Total General
+total_general_var = tk.StringVar(value="Total: $ 0")
+label_total_general = tk.Label(tabla_frame, textvariable=total_general_var, font=("Arial", 12, "bold"), bg="#e8f5e9", anchor="e")
+label_total_general.pack(fill="x", pady=(10, 0), padx=5)
+
 
 # -----------------------------------------------
 # Precios fijos por producto
@@ -26,24 +64,13 @@ productos = list(precios_productos.keys())
 
 # -----------------------------------------------
 # Funciones principales
-def centrar_ventana(ventana, ancho, alto):
-    ventana.update_idletasks()
-    x = (ventana.winfo_screenwidth() // 2) - (ancho // 2)
-    y = (ventana.winfo_screenheight() // 2) - (alto // 2)
-    ventana.geometry(f"{ancho}x{alto}+{x}+{y}")
+
+actualizar_total_general(tabla, total_general_var)
 
 def actualizar_precio(event):
     producto = combo_productos.get()
     if producto in precios_productos:
         precio_var.set(precios_productos[producto])
-
-def actualizar_total_general():
-    total = 0
-    for row in tabla.get_children():
-        valores = tabla.item(row, "values")
-        total_str = valores[3].replace("$", "").replace(",", "")
-        total += float(total_str)
-    total_general_var.set(f"Total: $ {total:,.2f}")
 
 def agregar_producto():
     producto = combo_productos.get()
@@ -146,15 +173,6 @@ def finalizar_compra():
     tk.Button(factura, text="Cerrar", command=factura.destroy, bg="#c62828", fg="white").pack(pady=5)
 
 # -----------------------------------------------
-# Crear ventana principal
-ventana = tk.Tk()
-ventana.title("Tienda de Verduras")
-ventana.configure(bg="#e8f5e9")
-ventana.overrideredirect(True)
-ventana.resizable(True, True)
-centrar_ventana(ventana, 1100, 450)
-
-# -----------------------------------------------
 # Barra superior
 barra_superior = tk.Frame(ventana, bg="#2e7d32", height=30)
 barra_superior.pack(fill="x")
@@ -172,12 +190,6 @@ def mover_ventana(event):
 
 barra_superior.bind("<ButtonPress-1>", iniciar_movimiento)
 barra_superior.bind("<B1-Motion>", mover_ventana)
-
-# -----------------------------------------------
-# Cuerpo principal
-cuerpo = tk.Frame(ventana, bg="#e8f5e9")
-cuerpo.pack(fill="both", expand=True, padx=10, pady=10)
-cuerpo.columnconfigure(1, weight=1)
 
 # -----------------------------------------------
 # Columna izquierda: formulario
@@ -221,26 +233,6 @@ botones_frame.grid(row=7, columnspan=2, pady=10)
 tk.Button(botones_frame, text="Guardar", bg="#43a047", fg="white", command=guardar_cliente).pack(side="left", padx=5)
 tk.Button(botones_frame, text="Cancelar", bg="#ef5350", fg="white", command=cancelar_cliente).pack(side="left", padx=5)
 
-# -----------------------------------------------
-# Tabla productos
-tabla_frame = tk.Frame(cuerpo, bg="#e8f5e9")
-tabla_frame.grid(row=0, column=1, sticky="nsew")
-cuerpo.grid_columnconfigure(1, weight=1)
-
-label_tabla = tk.Label(tabla_frame, text="Canasta", bg="#e8f5e9", fg="#1b5e20", font=("Arial", 12, "bold"))
-label_tabla.pack()
-
-tabla = ttk.Treeview(tabla_frame, columns=("Producto", "Cantidad", "Precio", "Total"), show="headings", height=10)
-for col in ("Producto", "Cantidad", "Precio", "Total"):
-    tabla.heading(col, text=col)
-    tabla.column(col, width=100,)
-tabla.pack(fill="both", expand=True)
-
-# Total General
-total_general_var = tk.StringVar(value="Total: $ 0")
-label_total_general = tk.Label(tabla_frame, textvariable=total_general_var, font=("Arial", 12, "bold"), bg="#e8f5e9", anchor="e")
-label_total_general.pack(fill="x", pady=(10, 0), padx=5)
-
 # Botones acción
 botones_tabla = tk.Frame(tabla_frame, bg="#e8f5e9")
 botones_tabla.pack(pady=10)
@@ -255,6 +247,8 @@ btn_eliminar = tk.Button(
 )
 btn_carrito.pack(side="left", padx=15)
 btn_eliminar.pack(side="left", padx=15)
+
+centrar_ventana(ventana, 1100, 450)
 
 # -----------------------------------------------
 ventana.mainloop()
