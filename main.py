@@ -31,7 +31,7 @@ def actualizar_total_general():
         valores = tabla.item(row, "values")
         total_str = valores[3].replace("$", "").replace(",", "")
         total += float(total_str)
-    total_general_var.set(f"Total: ${total:,.2f}")
+    total_general_var.set(f"Total: $ {total:,.2f}")
 
 def agregar_producto():
     producto = combo_productos.get()
@@ -41,9 +41,9 @@ def agregar_producto():
             cantidad = int(cantidad)
             precio = precios_productos.get(producto, 0)
             total = precio * cantidad
-            tabla.insert("", "end", values=(producto, cantidad, f"${precio}", f"${total}"))
+            tabla.insert("", "end", values=(producto, cantidad, f"$ {precio}", f"$ {total}"))
             actualizar_total_general()
-            precio_var.set(f"${precio}")
+            precio_var.set(f"$ {precio}")
             cantidad = int(0)
         except ValueError:
             precio_var.set("Error")
@@ -54,10 +54,18 @@ def eliminar_producto():
         tabla.delete(selected[0])
         actualizar_total_general()
 
-def finalizar_compra():
-    print("Compra finalizada (simulada)")
-
 def guardar_cliente():
+    nombre = nombre_cliente.get().strip()
+    cedula = cedula_cliente.get().strip()
+
+    if not nombre:
+        messagebox.showwarning("Nombre requerido", "Necesita registrar el nombre del cliente.")
+        return
+
+    if not cedula.isdigit():
+        messagebox.showerror("Error de Cédula", "La cédula debe contener solo números.")
+        return
+
     entrada_nombre.config(state="readonly")
     entrada_cedula.config(state="readonly")
 
@@ -100,8 +108,27 @@ def finalizar_compra():
         valores = tabla.item(row, "values")
         tabla_factura.insert("", "end", values=valores)
 
-    # Total
-    tk.Label(factura, text=total_general_var.get(), font=("Arial", 12, "bold"), bg="white").pack(pady=10)
+    # Guardar el total antes de limpiar
+    total_factura = total_general_var.get()
+    tk.Label(factura, text=total_factura, font=("Arial", 12, "bold"), bg="white").pack(pady=10)
+
+    # Limpiar la tabla de productos
+    for item in tabla.get_children():
+        tabla.delete(item)
+        total_general_var.set(f"Total: $ {0}")
+
+    # Limpiar los campos de cliente
+    nombre_cliente.set("")
+    cedula_cliente.set("")
+    entrada_nombre.config(state="normal")
+    entrada_cedula.config(state="normal")
+    entrada_nombre.delete(0, tk.END)
+    entrada_cedula.delete(0, tk.END)
+
+    # Limpiar campos de Productos
+    combo_productos.set("Selecciona un producto")
+    precio_var.set("")
+    entrada_cantidad.delete(0, tk.END)
 
     # Botón cerrar
     tk.Button(factura, text="Cerrar", command=factura.destroy, bg="#c62828", fg="white").pack(pady=5)
@@ -198,7 +225,7 @@ for col in ("Producto", "Cantidad", "Precio", "Total"):
 tabla.pack(fill="both", expand=True)
 
 # Total General
-total_general_var = tk.StringVar(value="Total: $0")
+total_general_var = tk.StringVar(value="Total: $ 0")
 label_total_general = tk.Label(tabla_frame, textvariable=total_general_var, font=("Arial", 12, "bold"), bg="#e8f5e9", anchor="e")
 label_total_general.pack(fill="x", pady=(10, 0), padx=5)
 
