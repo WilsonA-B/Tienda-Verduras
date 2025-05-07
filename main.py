@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 # -----------------------------------------------
 # Precios fijos por producto
@@ -66,6 +66,45 @@ def cancelar_cliente():
     entrada_cedula.config(state="normal")
     entrada_nombre.delete(0, tk.END)
     entrada_cedula.delete(0, tk.END)
+
+def finalizar_compra():
+    # Validar que haya productos en la tabla
+    if not tabla.get_children():
+        messagebox.showwarning("Carrito vacío", "No hay productos en la canasta.")
+        return
+
+    # Validar que se haya ingresado nombre y cédula
+    if not nombre_cliente.get().strip() or not cedula_cliente.get().strip():
+        messagebox.showwarning("Datos incompletos", "Por favor ingresa nombre y cédula del cliente.")
+        return
+
+    # Crear ventana de factura
+    factura = tk.Toplevel(ventana)
+    factura.title("Factura de Compra")
+    factura.configure(bg="white")
+    centrar_ventana(factura, 500, 400)
+
+    # Datos del cliente
+    tk.Label(factura, text="Factura de Compra", font=("Arial", 14, "bold"), bg="white").pack(pady=10)
+    tk.Label(factura, text=f"Nombre: {nombre_cliente.get()}", font=("Arial", 10), bg="white").pack()
+    tk.Label(factura, text=f"Cédula: {cedula_cliente.get()}", font=("Arial", 10), bg="white").pack(pady=(0, 10))
+
+    # Tabla de productos
+    tabla_factura = ttk.Treeview(factura, columns=("Producto", "Cantidad", "Precio", "Total"), show="headings", height=8)
+    for col in ("Producto", "Cantidad", "Precio", "Total"):
+        tabla_factura.heading(col, text=col)
+        tabla_factura.column(col, width=100)
+    tabla_factura.pack(pady=5, padx=10, fill="x")
+
+    for row in tabla.get_children():
+        valores = tabla.item(row, "values")
+        tabla_factura.insert("", "end", values=valores)
+
+    # Total
+    tk.Label(factura, text=total_general_var.get(), font=("Arial", 12, "bold"), bg="white").pack(pady=10)
+
+    # Botón cerrar
+    tk.Button(factura, text="Cerrar", command=factura.destroy, bg="#c62828", fg="white").pack(pady=5)
 
 # -----------------------------------------------
 # Crear ventana principal
@@ -149,7 +188,7 @@ tabla_frame = tk.Frame(cuerpo, bg="#e8f5e9")
 tabla_frame.grid(row=0, column=1, sticky="nsew")
 cuerpo.grid_columnconfigure(1, weight=1)
 
-label_tabla = tk.Label(tabla_frame, text="Productos Agregados", bg="#e8f5e9", fg="#1b5e20", font=("Arial", 12, "bold"))
+label_tabla = tk.Label(tabla_frame, text="Canasta", bg="#e8f5e9", fg="#1b5e20", font=("Arial", 12, "bold"))
 label_tabla.pack()
 
 tabla = ttk.Treeview(tabla_frame, columns=("Producto", "Cantidad", "Precio", "Total"), show="headings", height=10)
