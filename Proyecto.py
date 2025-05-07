@@ -43,12 +43,10 @@ for col in ("Producto", "Cantidad", "Precio", "Total"):
     tabla.column(col, width=100,)
 tabla.pack(fill="both", expand=True)
 
-
 # Total General
 total_general_var = tk.StringVar(value="Total: $ 0")
 label_total_general = tk.Label(tabla_frame, textvariable=total_general_var, font=("Arial", 12, "bold"), bg="#e8f5e9", anchor="e")
 label_total_general.pack(fill="x", pady=(10, 0), padx=5)
-
 
 # -----------------------------------------------
 # Precios fijos por producto
