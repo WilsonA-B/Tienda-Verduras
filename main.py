@@ -97,11 +97,11 @@ def finalizar_compra():
     tk.Label(factura, text=f"Nombre: {nombre_cliente.get()}", font=("Arial", 10), bg="white").pack()
     tk.Label(factura, text=f"Cédula: {cedula_cliente.get()}", font=("Arial", 10), bg="white").pack(pady=(0, 10))
 
-    # Tabla de productos
+    # Factura
     tabla_factura = ttk.Treeview(factura, columns=("Producto", "Cantidad", "Precio", "Total"), show="headings", height=8)
     for col in ("Producto", "Cantidad", "Precio", "Total"):
         tabla_factura.heading(col, text=col)
-        tabla_factura.column(col, width=100)
+        tabla_factura.column(col, width=100, anchor="center")
     tabla_factura.pack(pady=5, padx=10, fill="x")
 
     for row in tabla.get_children():
@@ -172,22 +172,22 @@ cuerpo.columnconfigure(1, weight=1)
 form_frame = tk.Frame(cuerpo, bg="#e8f5e9")
 form_frame.grid(row=0, column=0, sticky="nw")
 
-tk.Label(form_frame, text="Producto:", bg="#e8f5e9", fg="#1b5e20", font=("Arial", 11)).grid(row=0, column=0, sticky="e", pady=5)
+tk.Label(form_frame, text="Producto:", bg="#e8f5e9", fg="#1b5e20", font=("Arial", 10)).grid(row=0, column=0, sticky="e", pady=5)
 combo_productos = ttk.Combobox(form_frame, values=productos, state="readonly", width=25)
 combo_productos.grid(row=0, column=1, padx=10)
 combo_productos.set("Selecciona un producto")
 combo_productos.bind("<<ComboboxSelected>>", actualizar_precio)
 
 precio_var = tk.StringVar()
-tk.Label(form_frame, text="Precio:", bg="#e8f5e9", fg="#1b5e20").grid(row=1, column=0, sticky="e", pady=5)
+tk.Label(form_frame, text="Precio:", bg="#e8f5e9", fg="#1b5e20", font=("Arial", 10)).grid(row=1, column=0, sticky="e", pady=5)
 entrada_precio = tk.Entry(form_frame, textvariable=precio_var, width=28, state="readonly")
 entrada_precio.grid(row=1, column=1)
 
-tk.Label(form_frame, text="Cantidad:", bg="#e8f5e9", fg="#1b5e20").grid(row=2, column=0, sticky="e", pady=5)
+tk.Label(form_frame, text="Cantidad:", bg="#e8f5e9", fg="#1b5e20", font=("Arial", 10)).grid(row=2, column=0, sticky="e", pady=5)
 entrada_cantidad = tk.Entry(form_frame, width=28)
 entrada_cantidad.grid(row=2, column=1)
 
-tk.Button(form_frame, text="Agregar producto", bg="#66bb6a", fg="white", font=("Arial", 10, "bold"), command=agregar_producto).grid(row=3, columnspan=2, pady=10)
+tk.Button(form_frame, text="Agregar producto", bg="#66bb6a", fg="white", font=("Arial", 12, "bold"), command=agregar_producto).grid(row=3, columnspan=2, pady=10)
 
 # Datos del Cliente
 nombre_cliente = tk.StringVar()
@@ -197,11 +197,11 @@ tk.Label(form_frame, text="--- Datos del Cliente ---", bg="#e8f5e9", fg="#1b5e20
 
 entrada_nombre = tk.Entry(form_frame, textvariable=nombre_cliente, width=28)
 entrada_nombre.grid(row=5, column=1)
-tk.Label(form_frame, text="Nombre:", bg="#e8f5e9", fg="#1b5e20").grid(row=5, column=0, sticky="e", pady=5)
+tk.Label(form_frame, text="Nombre:", bg="#e8f5e9", fg="#1b5e20", font=("Arial", 10)).grid(row=5, column=0, sticky="e", pady=5)
 
 entrada_cedula = tk.Entry(form_frame, textvariable=cedula_cliente, width=28)
 entrada_cedula.grid(row=6, column=1)
-tk.Label(form_frame, text="Cédula:", bg="#e8f5e9", fg="#1b5e20").grid(row=6, column=0, sticky="e", pady=5)
+tk.Label(form_frame, text="Cédula:", bg="#e8f5e9", fg="#1b5e20", font=("Arial", 10)).grid(row=6, column=0, sticky="e", pady=5)
 
 botones_frame = tk.Frame(form_frame, bg="#e8f5e9")
 botones_frame.grid(row=7, columnspan=2, pady=10)
@@ -221,7 +221,7 @@ label_tabla.pack()
 tabla = ttk.Treeview(tabla_frame, columns=("Producto", "Cantidad", "Precio", "Total"), show="headings", height=10)
 for col in ("Producto", "Cantidad", "Precio", "Total"):
     tabla.heading(col, text=col)
-    tabla.column(col, width=100)
+    tabla.column(col, width=100,)
 tabla.pack(fill="both", expand=True)
 
 # Total General
