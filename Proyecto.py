@@ -23,6 +23,13 @@ ventana.resizable(True, True)
 centrar_ventana(ventana, 1100, 450)
 
 # -----------------------------------------------
+# Barra superior
+barra_superior = tk.Frame(ventana, bg="#2e7d32", height=30)
+barra_superior.pack(fill="x")
+tk.Label(barra_superior, text="🍅 Tienda de Verduras", bg="#2e7d32", fg="white", font=("Bookman Old Style", 12, "italic")).pack(side="left", padx=10)
+tk.Button(barra_superior, text=" X ", bg="#c62828", fg="white", font=("Bookman Old Style", 12), command=ventana.destroy).pack(side="right", padx=10)
+
+# -----------------------------------------------
 # Cuerpo principal
 cuerpo = tk.Frame(ventana, bg="#e8f5e9")
 cuerpo.pack(fill="both", expand=True, padx=10, pady=10)
@@ -160,7 +167,7 @@ def finalizar_compra():
     entrada_nombre.config(state="normal")
     entrada_cedula.config(state="normal")
     entrada_nombre.delete(0, tk.END)
-    entrada_cedula.delete(0, tk.END)
+    entrada_cedula.delete(0, tk.END) 
 
     # Limpiar campos de Productos
     combo_productos.set("Selecciona un producto")
@@ -169,13 +176,6 @@ def finalizar_compra():
 
     # Botón cerrar
     tk.Button(factura, text="Cerrar", command=factura.destroy, bg="#c62828", fg="white").pack(pady=5)
-
-# -----------------------------------------------
-# Barra superior
-barra_superior = tk.Frame(ventana, bg="#2e7d32", height=30)
-barra_superior.pack(fill="x")
-tk.Label(barra_superior, text="🍅 Tienda de Verduras", bg="#2e7d32", fg="white", font=("Bookman Old Style", 12, "italic")).pack(side="left", padx=10)
-tk.Button(barra_superior, text=" X ", bg="#c62828", fg="white", font=("Bookman Old Style", 12), command=ventana.destroy).pack(side="right", padx=10)
 
 def iniciar_movimiento(event):
     ventana.x = event.x
