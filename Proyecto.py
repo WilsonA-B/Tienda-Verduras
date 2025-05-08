@@ -14,6 +14,12 @@ conn.commit()
 conn.close()
 
 # -----------------------------------------------
+# Funcion para pasar al Login
+def Login():
+    ventana.destroy()
+    import Login
+
+# -----------------------------------------------
 # Crear ventana principal
 ventana = tk.Tk()
 ventana.title("Tienda de Verduras")
@@ -28,6 +34,7 @@ barra_superior = tk.Frame(ventana, bg="#2e7d32", height=30)
 barra_superior.pack(fill="x")
 tk.Label(barra_superior, text="🍅 Tienda de Verduras", bg="#2e7d32", fg="white", font=("Bookman Old Style", 12, "italic")).pack(side="left", padx=10)
 tk.Button(barra_superior, text=" X ", bg="#c62828", fg="white", font=("Bookman Old Style", 12), command=ventana.destroy).pack(side="right", padx=10)
+tk.Button(barra_superior, text=" 💻 ", bg="#0a497b", fg="white", font=("Bookman Old Style", 12), command=Login).pack(side="right", padx=10)
 
 # -----------------------------------------------
 # Cuerpo principal

@@ -23,7 +23,7 @@ def login():
         messagebox.showerror("Error", "Usuario o contraseña incorrectos.")
 
 def Back():
-    root.destroy()
+    root.withdraw()
     import Proyecto
 
 #TK - Diseño

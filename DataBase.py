@@ -68,10 +68,37 @@ def seleccionar_clientes(event):
         entrada_nombre.delete(0, tk.END)
         entrada_nombre.insert(0, valores[1])
 
+def Home():
+    root.withdraw()
+    import Proyecto
+
+def iniciar_movimiento(event):
+    root.x = event.x
+    root.y = event.y
+
+def mover_ventana(event):
+    x = event.x_root - root.x
+    y = event.y_root - root.y
+    root.geometry(f"+{x}+{y}")
+
 # Interfaz
 root = tk.Tk()
 root.title("Gestor de Productos - Tienda.db")
-root.geometry("700x400")
+root.geometry("700x450")
+root.configure(bg="#e8f5e9")
+root.overrideredirect(True)
+root.resizable(True, True) # ---- Barra de Windows
+
+# -----------------------------------------------
+# Barra superior
+barra_superior = tk.Frame(root, bg="#2e7d32", height=30)
+barra_superior.pack(fill="x")
+tk.Label(barra_superior, text="🍅 Tienda de Verduras", bg="#2e7d32", fg="white", font=("Bookman Old Style", 12, "italic")).pack(side="left", padx=10)
+tk.Button(barra_superior, text=" X ", bg="#c62828", fg="white", font=("Bookman Old Style", 12), command=root.destroy).pack(side="right", padx=10)
+tk.Button(barra_superior, text=" 🏠 ", bg="#0a497b", fg="white", font=("Bookman Old Style", 12), command=Home).pack(side="right", padx=10)
+
+barra_superior.bind("<ButtonPress-1>", iniciar_movimiento)
+barra_superior.bind("<B1-Motion>", mover_ventana)
 
 # Formulario
 frame_form = tk.Frame(root)
