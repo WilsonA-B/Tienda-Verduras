@@ -6,14 +6,20 @@ USERS = {
     "admin": "1234"
 }
 
+# -----------------------------------------------
+# Parametro de Ingreso
 def verificar_login(usuario, contrasena):
     return USERS.get(usuario) == contrasena
 
+# -----------------------------------------------
+# Mensaje de Confirmacion y Cambio de Ventana
 def iniciar_sistema():
     messagebox.showinfo("Login exitoso", "Entrando a la Base de Datos")
     root.destroy()
     import DataBase
 
+# -----------------------------------------------
+# Verificacion del Login
 def login():
     usuario = entrada_usuario.get()
     contrasena = entrada_contrasena.get()
@@ -22,11 +28,14 @@ def login():
     else:
         messagebox.showerror("Error", "Usuario o contraseña incorrectos.")
 
+# -----------------------------------------------
+# Volver a Pantalla Principal
 def Back():
     root.withdraw()
     import Proyecto
 
-#TK - Diseño
+# -----------------------------------------------
+# Diseño Ventana Login
 root = tk.Tk()
 root.title("Login - Tienda")
 root.config(bg="#e8f5e9")
@@ -39,6 +48,8 @@ tk.Label(root, text="Contraseña").pack(pady=5)
 entrada_contrasena = tk.Entry(root, show="*")
 entrada_contrasena.pack()
 
+# -----------------------------------------------
+# Configuracion de Botones
 boton_root = tk.Frame(root)
 boton_root.pack(pady=20)
 

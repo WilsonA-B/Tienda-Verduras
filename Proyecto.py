@@ -2,6 +2,8 @@ import tkinter as tk
 from Helpers import *
 from tkinter import ttk, messagebox
 
+# -----------------------------------------------
+# Conexion a la BD
 import sqlite3
 
 conn = sqlite3.connect("Tienda.db")
@@ -57,6 +59,7 @@ for col in ("Producto", "Cantidad", "Precio", "Total"):
     tabla.column(col, width=100,)
 tabla.pack(fill="both", expand=True)
 
+# -----------------------------------------------
 # Total General
 total_general_var = tk.StringVar(value="Total: $ 0")
 label_total_general = tk.Label(tabla_frame, textvariable=total_general_var, font=("Arial", 12, "bold"), bg="#e8f5e9", anchor="e")
@@ -76,14 +79,21 @@ productos = list(precios_productos.keys())
 
 # -----------------------------------------------
 # Funciones principales
+# -----------------------------------------------
 
+# -----------------------------------------------
+# Helpers
 actualizar_total_general(tabla, total_general_var)
 
+# -----------------------------------------------
+# Funcion para que muestre el precio cuando se escoja un producto
 def actualizar_precio(event):
     producto = combo_productos.get()
     if producto in precios_productos:
         precio_var.set(precios_productos[producto])
 
+# -----------------------------------------------
+# Funcion para Agregar Producto a la Tabla
 def agregar_producto():
     producto = combo_productos.get()
     cantidad = entrada_cantidad.get()
@@ -99,12 +109,16 @@ def agregar_producto():
         except ValueError:
             precio_var.set("Error")
 
+# -----------------------------------------------
+# Funcion para eliminar producto de la tabla
 def eliminar_producto():
     selected = tabla.selection()
     if selected:
         tabla.delete(selected[0])
         actualizar_total_general()
 
+# -----------------------------------------------
+# Guarda el cliente y Bloquea los Labels
 def guardar_cliente():
     nombre = nombre_cliente.get().strip()
     cedula = cedula_cliente.get().strip()
@@ -120,12 +134,16 @@ def guardar_cliente():
     entrada_nombre.config(state="readonly")
     entrada_cedula.config(state="readonly")
 
+# -----------------------------------------------
+# Desbloquea los Labels
 def cancelar_cliente():
     entrada_nombre.config(state="normal")
     entrada_cedula.config(state="normal")
     entrada_nombre.delete(0, tk.END)
     entrada_cedula.delete(0, tk.END)
 
+# -----------------------------------------------
+# Generar Factura y Reiniciar el Visual
 def finalizar_compra():
     # Validar que haya productos en la tabla
     if not tabla.get_children():
@@ -184,6 +202,8 @@ def finalizar_compra():
     # Botón cerrar
     tk.Button(factura, text="Cerrar", command=factura.destroy, bg="#c62828", fg="white").pack(pady=5)
 
+# -----------------------------------------------
+# Mover Ventana
 def iniciar_movimiento(event):
     ventana.x = event.x
     ventana.y = event.y
@@ -216,8 +236,10 @@ tk.Label(form_frame, text="Cantidad:", bg="#e8f5e9", fg="#1b5e20", font=("Arial"
 entrada_cantidad = tk.Entry(form_frame, width=28)
 entrada_cantidad.grid(row=2, column=1)
 
+# Boton Agregar Producto
 tk.Button(form_frame, text="Agregar producto", bg="#66bb6a", fg="white", font=("Arial", 12, "bold"), command=agregar_producto).grid(row=3, columnspan=2, pady=10)
 
+# -----------------------------------------------
 # Datos del Cliente
 nombre_cliente = tk.StringVar()
 cedula_cliente = tk.StringVar()
@@ -235,10 +257,14 @@ tk.Label(form_frame, text="Cédula:", bg="#e8f5e9", fg="#1b5e20", font=("Arial",
 botones_frame = tk.Frame(form_frame, bg="#e8f5e9")
 botones_frame.grid(row=7, columnspan=2, pady=10)
 
+
+# -----------------------------------------------
+# Configuracion de Botones para Cliente
 tk.Button(botones_frame, text="Guardar", bg="#43a047", fg="white", command=guardar_cliente).pack(side="left", padx=5)
 tk.Button(botones_frame, text="Cancelar", bg="#ef5350", fg="white", command=cancelar_cliente).pack(side="left", padx=5)
 
-# Botones acción
+# -----------------------------------------------
+# Configuracion para los botones de Facturar o Borrar Producto
 botones_tabla = tk.Frame(tabla_frame, bg="#e8f5e9")
 botones_tabla.pack(pady=10)
 

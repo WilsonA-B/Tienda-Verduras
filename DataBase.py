@@ -5,6 +5,8 @@ from tkinter import messagebox, ttk
 
 DB_NAME = "Tienda.db"
 
+# -----------------------------------------------
+# INSERT
 def insertar_clientes(cedula, nombre):
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
@@ -13,6 +15,8 @@ def insertar_clientes(cedula, nombre):
     conn.close()
     mostrar_clientes()
 
+# -----------------------------------------------
+# DELETE
 def eliminar_cliente():
     seleccionado = tabla.selection()
     if not seleccionado:
@@ -27,6 +31,8 @@ def eliminar_cliente():
     conn.close()
     mostrar_clientes()
 
+# -----------------------------------------------
+# UPDATE
 def actualizar_clientes():
     seleccionado = tabla.selection()
     if not seleccionado:
@@ -47,6 +53,8 @@ def actualizar_clientes():
     conn.close()
     mostrar_clientes()
 
+# -----------------------------------------------
+# READ
 def mostrar_clientes():
     for fila in tabla.get_children():
         tabla.delete(fila)
@@ -58,6 +66,8 @@ def mostrar_clientes():
         tabla.insert("", tk.END, values=fila)
     conn.close()
 
+# -----------------------------------------------
+# SELECT
 def seleccionar_clientes(event):
     seleccionado = tabla.selection()
     if seleccionado:
@@ -68,10 +78,14 @@ def seleccionar_clientes(event):
         entrada_nombre.delete(0, tk.END)
         entrada_nombre.insert(0, valores[1])
 
+# -----------------------------------------------
+# Volver a Pantalla Principal
 def Home():
     root.withdraw()
     import Proyecto
 
+# -----------------------------------------------
+# Mover Ventana
 def iniciar_movimiento(event):
     root.x = event.x
     root.y = event.y
@@ -81,7 +95,8 @@ def mover_ventana(event):
     y = event.y_root - root.y
     root.geometry(f"+{x}+{y}")
 
-# Interfaz
+# -----------------------------------------------
+# Diseño Ventana DB
 root = tk.Tk()
 root.title("Gestor de Productos - Tienda.db")
 root.geometry("700x450")
@@ -100,7 +115,8 @@ tk.Button(barra_superior, text=" 🏠 ", bg="#0a497b", fg="white", font=("Bookma
 barra_superior.bind("<ButtonPress-1>", iniciar_movimiento)
 barra_superior.bind("<B1-Motion>", mover_ventana)
 
-# Formulario
+# -----------------------------------------------
+# Diseño Formulario
 frame_form = tk.Frame(root)
 frame_form.pack(pady=10)
 
@@ -112,7 +128,8 @@ tk.Label(frame_form, text="Nombre").grid(row=1, column=0)
 entrada_nombre = tk.Entry(frame_form)
 entrada_nombre.grid(row=1, column=1)
 
-# Botones
+# -----------------------------------------------
+# Configuracion Botones
 frame_botones = tk.Frame(root)
 frame_botones.pack(pady=10)
 
@@ -123,7 +140,8 @@ tk.Button(frame_botones, text="Agregar", command=lambda: insertar_clientes(
 tk.Button(frame_botones, text="Actualizar", command=actualizar_clientes).grid(row=0, column=1, padx=5)
 tk.Button(frame_botones, text="Eliminar", command=eliminar_cliente).grid(row=0, column=2, padx=5)
 
-# Tabla
+# -----------------------------------------------
+# Configuracion de Tabla
 tabla = ttk.Treeview(root, columns=("Cedula", "Nombre"), show="headings")
 tabla.heading("Cedula", text="Cedula")
 tabla.heading("Nombre", text="Nombre")
