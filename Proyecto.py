@@ -103,7 +103,7 @@ def agregar_producto():
             precio = precios_productos.get(producto, 0)
             total = precio * cantidad
             tabla.insert("", "end", values=(producto, cantidad, f"$ {precio}", f"$ {total}"))
-            actualizar_total_general()
+            actualizar_total_general(tabla, total_general_var)
             precio_var.set(f"$ {precio}")
             cantidad = int(0)
         except ValueError:

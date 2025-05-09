@@ -14,4 +14,4 @@ def actualizar_total_general(tabla, total_general_var):
         valores = tabla.item(row, "values")
         total_str = valores[3].replace("$", "").replace(",", "")
         total += float(total_str)
-    total_general_var.set(f"Total: $ {total:,.2f}")
+    total_general_var.set(f"Total: $ {total:,.0f}")
