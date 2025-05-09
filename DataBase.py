@@ -81,7 +81,7 @@ def seleccionar_clientes(event):
 # -----------------------------------------------
 # Volver a Pantalla Principal
 def Home():
-    ventana.withdraw()
+    ventana.destroy()
     import Proyecto
 
 # -----------------------------------------------

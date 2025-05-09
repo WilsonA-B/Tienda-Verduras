@@ -16,7 +16,7 @@ def verificar_login(usuario, contrasena):
 def iniciar_sistema():
     messagebox.showinfo("Login exitoso", "Entrando a la Base de Datos")
     ventana.destroy()
-    import DataBase
+    import Conexion
 
 # -----------------------------------------------
 # Verificacion del Login
@@ -31,7 +31,7 @@ def login():
 # -----------------------------------------------
 # Volver a Pantalla Principal
 def Back():
-    ventana.withdraw()
+    ventana.destroy()
     import Proyecto
 
 # -----------------------------------------------
