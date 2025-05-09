@@ -19,7 +19,7 @@ def Home():
 # Pasar a DB Clientes
 def Clientes():
     ventana.destroy()
-    import DataBase
+    import DB_Clientes
 
 # -----------------------------------------------
 # Mover Ventana

@@ -25,4 +25,4 @@ CREATE TABLE IF NOT EXISTS detalle_factura (
     total REAL,
     FOREIGN KEY (id_factura) REFERENCES facturas(id_factura),
     FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
-)
+);
