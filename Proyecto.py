@@ -86,7 +86,7 @@ productos = list(precios_productos.keys())
 actualizar_total_general(tabla, total_general_var)
 
 # -----------------------------------------------
-# Funcion para que muestre el precio cuando se escoja un producto
+# Funcion para que muestre el precio del producto
 def actualizar_precio(event):
     producto = combo_productos.get()
     if producto in precios_productos:
