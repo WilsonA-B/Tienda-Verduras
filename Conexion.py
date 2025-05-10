@@ -22,6 +22,12 @@ def Clientes():
     import DB_Clientes
 
 # -----------------------------------------------
+# Pasar a DB Almacen
+def Clientes():
+    ventana.destroy()
+    import DB_Almacen
+
+# -----------------------------------------------
 # Mover Ventana
 def iniciar_movimiento(event):
     ventana.x = event.x

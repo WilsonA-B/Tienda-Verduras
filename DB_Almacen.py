@@ -3,6 +3,14 @@ from Helpers import *
 from tkinter import ttk, messagebox
 import sqlite3
 
+def obtener_productos():
+    conn = sqlite3.connect("Tienda.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT nombre, precio FROM productos")
+    productos = cursor.fetchall()
+    conn.close()
+    return {nombre: int(precio) for nombre, precio in productos}  # Devuelve un diccionario: {nombre: precio}
+
 # Productos fijos del almacén
 precios_productos = {
     "Manzana": 1200, "Naranja": 800, "Brócoli": 1500, "Zanahoria": 700, "Papa": 500,
@@ -94,26 +102,25 @@ def mover_ventana(event):
     y = event.y_root - ventana.y
     ventana.geometry(f"+{x}+{y}")
 
-# Interfaz
-ventana = tk.Tk()
-ventana.title("Almacén de Verduras")
-ventana.configure(bg="#e8f5e9")
-ventana.overrideredirect(True)
-ventana.resizable(True, True)
-centrar_ventana(ventana, 1100, 450)
+def iniciar_interfaz_almacen():
+    global ventana, tabla, entrada_nombre, entrada_precio, etiqueta_id
+    ventana = tk.Tk()
+    ventana.title("Almacén de Verduras")
+    ventana.configure(bg="#e8f5e9")
+    ventana.overrideredirect(True)
+    ventana.resizable(True, True)
+    centrar_ventana(ventana, 1100, 450)
 
-# -----------------------------------------------
+# ----------------- Interfaz gráfica -----------------
 # Barra superior
 barra_superior = tk.Frame(ventana, bg="#2e7d32", height=30)
 barra_superior.pack(fill="x")
 tk.Label(barra_superior, text="🍅 Tienda de Verduras", bg="#2e7d32", fg="white", font=("Bookman Old Style", 12, "italic")).pack(side="left", padx=10)
 tk.Button(barra_superior, text=" X ", bg="#c62828", fg="white", font=("Bookman Old Style", 12), command=ventana.destroy).pack(side="right", padx=10)
 tk.Button(barra_superior, text=" 🏠 ", bg="#0a497b", fg="white", font=("Bookman Old Style", 12), command=Home).pack(side="right", padx=10)
-
 barra_superior.bind("<ButtonPress-1>", iniciar_movimiento)
 barra_superior.bind("<B1-Motion>", mover_ventana)
 
-# Formulario
 entrada_nombre = tk.StringVar()
 entrada_precio = tk.StringVar()
 
@@ -138,7 +145,6 @@ ttk.Button(fila2, text="Actualizar", command=actualizar_producto).pack(side="lef
 ttk.Button(fila2, text="Eliminar", command=eliminar_producto).pack(side="left", padx=5)
 ttk.Button(fila2, text="Limpiar", command=limpiar_campos).pack(side="left", padx=5)
 
-# Tabla
 frame_tabla = ttk.Frame(ventana)
 frame_tabla.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
@@ -149,7 +155,6 @@ scroll_y.config(command=tabla.yview)
 tabla.heading("ID", text="ID")
 tabla.heading("Nombre", text="Nombre")
 tabla.heading("Precio", text="Precio")
-
 tabla.column("ID", anchor="center")
 tabla.column("Nombre", anchor="center")
 tabla.column("Precio", anchor="center")
@@ -161,3 +166,6 @@ tabla.bind("<<TreeviewSelect>>", seleccionar_fila)
 
 actualizar_tabla()
 ventana.mainloop()
+
+if __name__ == "__main__":
+    iniciar_interfaz_almacen()

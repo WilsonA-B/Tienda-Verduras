@@ -1,5 +1,6 @@
 import tkinter as tk
 from Helpers import *
+from DB_Almacen import *
 from tkinter import ttk, messagebox
 
 # -----------------------------------------------
@@ -66,15 +67,8 @@ label_total_general = tk.Label(tabla_frame, textvariable=total_general_var, font
 label_total_general.pack(fill="x", pady=(10, 0), padx=5)
 
 # -----------------------------------------------
-# Precios fijos por producto
-precios_productos = {
-    "Manzana": 1200, "Naranja": 800, "Brócoli": 1500, "Zanahoria": 700, "Papa": 500,
-    "Tomate": 900, "Cebolla": 600, "Lechuga": 1000, "Pimiento": 1300, "Ajo": 400,
-    "Pepino": 850, "Espinaca": 950, "Berenjena": 1100, "Repollo": 1200, "Calabacín": 1250,
-    "Apio": 700, "Remolacha": 1000, "Rábano": 600, "Perejil": 500, "Chayote": 900,
-    "Maíz": 750, "Yuca": 850, "Aguacate": 2000
-}
-
+# Obtener productos desde la base de datos
+precios_productos = obtener_productos()
 productos = list(precios_productos.keys())
 
 # -----------------------------------------------
