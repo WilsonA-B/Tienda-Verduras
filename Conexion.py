@@ -1,5 +1,6 @@
 import tkinter as tk
 from Helpers import *
+from DB_Almacen import *
 
 # -----------------------------------------------
 # Crear ventana principal
@@ -23,9 +24,9 @@ def Clientes():
 
 # -----------------------------------------------
 # Pasar a DB Almacen
-def Clientes():
+def Almacen():
     ventana.destroy()
-    import DB_Almacen
+    iniciar_interfaz_almacen()
 
 # -----------------------------------------------
 # Mover Ventana
@@ -68,7 +69,7 @@ frame_botones.pack(pady=20)
 # -----------------------------------------------
 # Crear los botones y agregarlos al frame
 boton1 = tk.Button(frame_botones, text="Clientes", bg="#43a047", fg="white", width=14, height=6, command=Clientes)
-boton2 = tk.Button(frame_botones, text="Almacen", bg="#43a047", fg="white", width=14, height=6)
+boton2 = tk.Button(frame_botones, text="Almacen", bg="#43a047", fg="white", width=14, height=6, command=Almacen)
 boton3 = tk.Button(frame_botones, text="Facturas", bg="#43a047", fg="white", width=14, height=6)
 boton4 = tk.Button(frame_botones, text="...", bg="#43a047", fg="white", width=14, height=6)
 
